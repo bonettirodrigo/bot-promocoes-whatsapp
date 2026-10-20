@@ -13,7 +13,7 @@ HEADERS = {
 }
 
 def enviar_promocao():
-    # PASSO 1: Mantedemos a sincronização do grupo (que já retorna 200 com sucesso)
+    # PASSO 1: Sincronização prévia do grupo
     print(f"--- PASSO 1: Sincronizando grupo {GROUP_JID} ---")
     url_sync = f"{BASE_URL}/group/findGroupInfos/{INSTANCE}?groupJid={GROUP_JID}"
     try:
@@ -24,15 +24,17 @@ def enviar_promocao():
 
     time.sleep(1)
 
-    # PASSO 2: Usar o endpoint universal de envio (/message/sendWhatsApp)
-    print("\n--- PASSO 2: Disparando mensagem via sendWhatsApp ---")
-    url_send = f"{BASE_URL}/message/sendWhatsApp/{INSTANCE}"
+    # PASSO 2: Envio para o endpoint correto indicando isGroup: True
+    print("\n--- PASSO 2: Disparando mensagem ---")
+    url_send = f"{BASE_URL}/message/sendText/{INSTANCE}"
     
     payload = {
         "number": GROUP_JID,
         "options": {
             "delay": 1200,
-            "presence": "composing"
+            "presence": "composing",
+            "linkPreview": False,
+            "isGroup": True
         },
         "textMessage": {
             "text": (
