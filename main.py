@@ -12,18 +12,22 @@ HEADERS = {
 }
 
 def enviar_promocao_grupo():
-    # Rota dedicada para envio em grupos na Evolution API
-    url_send = f"{BASE_URL}/group/sendText/{INSTANCE}"
+    url_send = f"{BASE_URL}/message/sendText/{INSTANCE}"
     
+    # Payload validado para envio direto em grupos na Evolution API v1.8
     payload = {
-        "groupJid": GROUP_JID,
+        "number": GROUP_JID,
         "text": (
             "🔥 *OFERTA IMPERDÍVEL MERCADO LIVRE*\n\n"
             "📌 *Luminária LED Touch Sem Fio*\n"
             "✅ *Por apenas: R$ 64,90*\n\n"
             "🔗 *Garanta a sua aqui:* https://mercadolivre.com.br\n\n"
             "⚡ *Aproveite antes que acabe o estoque!*"
-        )
+        ),
+        "options": {
+            "delay": 1200,
+            "presence": "composing"
+        }
     }
 
     print(f"Enviando mensagem para o grupo: {GROUP_JID}")
