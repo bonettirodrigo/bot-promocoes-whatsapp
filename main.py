@@ -13,7 +13,7 @@ HEADERS = {
 }
 
 def enviar_promocao():
-    # PASSO 1: Sincronização prévia do grupo
+    # PASSO 1: Sincronização prévia (saber se o grupo está na memória)
     print(f"--- PASSO 1: Sincronizando grupo {GROUP_JID} ---")
     url_sync = f"{BASE_URL}/group/findGroupInfos/{INSTANCE}?groupJid={GROUP_JID}"
     try:
@@ -24,27 +24,20 @@ def enviar_promocao():
 
     time.sleep(1)
 
-    # PASSO 2: Envio para o endpoint correto indicando isGroup: True
+    # PASSO 2: Envio achatado com a chave 'text' e 'number'
     print("\n--- PASSO 2: Disparando mensagem ---")
     url_send = f"{BASE_URL}/message/sendText/{INSTANCE}"
     
+    # Estrutura sem 'textMessage' aninhado para evitar a leitura interna do 'id'
     payload = {
         "number": GROUP_JID,
-        "options": {
-            "delay": 1200,
-            "presence": "composing",
-            "linkPreview": False,
-            "isGroup": True
-        },
-        "textMessage": {
-            "text": (
-                "🔥 *OFERTA IMPERDÍVEL MERCADO LIVRE*\n\n"
-                "📌 *Luminária LED Touch Sem Fio*\n"
-                "✅ *Por apenas: R$ 64,90*\n\n"
-                "🔗 *Garanta a sua aqui:* https://mercadolivre.com.br\n\n"
-                "⚡ *Aproveite antes que acabe o estoque!*"
-            )
-        }
+        "text": (
+            "🔥 *OFERTA IMPERDÍVEL MERCADO LIVRE*\n\n"
+            "📌 *Luminária LED Touch Sem Fio*\n"
+            "✅ *Por apenas: R$ 64,90*\n\n"
+            "🔗 *Garanta a sua aqui:* https://mercadolivre.com.br\n\n"
+            "⚡ *Aproveite antes que acabe o estoque!*"
+        )
     }
 
     res_send = requests.post(url_send, json=payload, headers=HEADERS)
