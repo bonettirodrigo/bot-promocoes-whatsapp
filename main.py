@@ -14,14 +14,9 @@ HEADERS = {
 def enviar_mensagem():
     url_send = f"{BASE_URL}/message/sendText/{INSTANCE}"
     
-    # Payload no formato nativo completo para aceitar grupos (@g.us)
+    # Payload validado para Evolution API v1.8 para grupos
     payload = {
         "number": CHAT_ID,
-        "options": {
-            "delay": 1200,
-            "presence": "composing",
-            "linkPreview": False
-        },
         "textMessage": {
             "text": (
                 "🔥 *OFERTA TESTE MERCADO LIVRE*\n\n"
