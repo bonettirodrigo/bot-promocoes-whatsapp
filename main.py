@@ -13,33 +13,34 @@ HEADERS = {
 }
 
 def enviar_promocao():
-    # PASSO 1: Forçar a API a carregar os dados do grupo na memória do Baileys
-    print(f"--- PASSO 1: Sincronizando metadados do grupo {GROUP_JID} ---")
-    url_find_group = f"{BASE_URL}/group/findGroupInfos/{INSTANCE}?groupJid={GROUP_JID}"
-    
+    # PASSO 1: Manter a sincronização do grupo na memória que retornou 200
+    print(f"--- PASSO 1: Sincronizando grupo {GROUP_JID} ---")
+    url_sync = f"{BASE_URL}/group/findGroupInfos/{INSTANCE}?groupJid={GROUP_JID}"
     try:
-        res_sync = requests.get(url_find_group, headers=HEADERS)
+        res_sync = requests.get(url_sync, headers=HEADERS)
         print("Status da sincronização:", res_sync.status_code)
     except Exception as e:
         print(f"Aviso na sincronização: {e}")
 
-    # Aguarda 2 segundos para o soquete atualizar a sessão do grupo
-    time.sleep(2)
+    time.sleep(1)
 
-    # PASSO 2: Enviar a mensagem para o grupo
-    print("\n--- PASSO 2: Disparando a mensagem ---")
+    # PASSO 2: Envio com a estrutura plana aceita para JIDs de grupo
+    print("\n--- PASSO 2: Disparando mensagem ---")
     url_send = f"{BASE_URL}/message/sendText/{INSTANCE}"
     
     payload = {
         "number": GROUP_JID,
-        "textMessage": {
-            "text": (
-                "🔥 *OFERTA IMPERDÍVEL MERCADO LIVRE*\n\n"
-                "📌 *Luminária LED Touch Sem Fio*\n"
-                "✅ *Por apenas: R$ 64,90*\n\n"
-                "🔗 *Garanta a sua aqui:* https://mercadolivre.com.br\n\n"
-                "⚡ *Aproveite antes que acabe o estoque!*"
-            )
+        "text": (
+            "🔥 *OFERTA IMPERDÍVEL MERCADO LIVRE*\n\n"
+            "📌 *Luminária LED Touch Sem Fio*\n"
+            "✅ *Por apenas: R$ 64,90*\n\n"
+            "🔗 *Garanta a sua aqui:* https://mercadolivre.com.br\n\n"
+            "⚡ *Aproveite antes que acabe o estoque!*"
+        ),
+        "options": {
+            "delay": 1200,
+            "presence": "composing",
+            "linkPreview": False
         }
     }
 
