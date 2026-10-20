@@ -14,9 +14,14 @@ HEADERS = {
 def enviar_mensagem():
     url_send = f"{BASE_URL}/message/sendText/{INSTANCE}"
     
-    # Estrutura exata esperada pela v1.8 para grupos:
+    # Payload no formato nativo completo para aceitar grupos (@g.us)
     payload = {
         "number": CHAT_ID,
+        "options": {
+            "delay": 1200,
+            "presence": "composing",
+            "linkPreview": False
+        },
         "textMessage": {
             "text": (
                 "🔥 *OFERTA TESTE MERCADO LIVRE*\n\n"
