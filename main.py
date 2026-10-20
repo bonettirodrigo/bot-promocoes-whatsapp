@@ -14,7 +14,7 @@ HEADERS = {
 def enviar_promocao_grupo():
     url_send = f"{BASE_URL}/message/sendText/{INSTANCE}"
     
-    # Payload validado para envio direto em grupos na Evolution API v1.8
+    # Payload otimizado para a v1.8 em grupos
     payload = {
         "number": GROUP_JID,
         "text": (
@@ -30,7 +30,7 @@ def enviar_promocao_grupo():
         }
     }
 
-    print(f"Enviando mensagem para o grupo: {GROUP_JID}")
+    print(f"Disparando mensagem para o grupo: {GROUP_JID}")
     res_send = requests.post(url_send, json=payload, headers=HEADERS)
     print("Status HTTP do Envio:", res_send.status_code)
     print("Resposta do Envio:", res_send.text)
